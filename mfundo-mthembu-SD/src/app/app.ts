@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { Terminal } from './components/terminal/terminal/terminal';

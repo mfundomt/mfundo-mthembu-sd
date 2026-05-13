@@ -41,6 +41,7 @@ export class Terminal implements OnInit {
     }
   }
 
+
   private addCommand(input: string): void {
     this.commandHistory.push({
       id: this.nextId++,
@@ -50,14 +51,24 @@ export class Terminal implements OnInit {
   }
 
   private processCommand(input: string): string | null {
+
     switch (input.toLowerCase()) {
+      case 'git checkout about':
+        return 'About Section: Learn about the project structure and components.';
+      case 'git checkout skills':
+        return 'Skills Section: Explore the skills and technologies used in the project.';
+      case 'git checkout experience':
+        return 'Experience Section: View the professional experience and projects.';
+      case 'git checkout certifications':
+        return 'Certifications Section: Check out the certifications and achievements.';
+      case 'git checkout education':
+        return 'Education Section: Discover the educational background and qualifications.';
+      case 'git checkout referrals':
+        return 'Referrals Section: See recommendations and endorsements from colleagues and mentors.';
       case 'help':
-        return 'Available commands: help, show goal, hint, level overview';
-      case 'show goal':
-        return 'Goal: Navigate project sections using terminal commands.';
-      case 'hint':
-        return 'Try "show components" to explore the project structure!';
-      case 'level overview':
+        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout certifications", "git checkout education", "git checkout referrals", "clear".';
+        case 'clear':       
+         this.commandHistory = [];
         return null;
       default:
         return `Unknown command: "${input}". Type "help" for available commands.`;

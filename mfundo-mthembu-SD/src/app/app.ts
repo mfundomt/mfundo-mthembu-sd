@@ -4,10 +4,11 @@ import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { Terminal } from './components/terminal/terminal/terminal';
+import { Footer } from './components/footer/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [Terminal, RouterOutlet, CommonModule, RouterModule],
+  imports: [Terminal, Footer, RouterOutlet, CommonModule, RouterModule],
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css'

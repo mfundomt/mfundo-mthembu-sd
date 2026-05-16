@@ -1,0 +1,21 @@
+<div class="terminal-wrap" role="region" aria-label="Project terminal">
+    <!-- Title bar -->
+    <div class="titlebar">
+        <div class="traffic-lights" aria-hidden="true">
+            <span class="dot close" #overlay (click)="onClose()"></span>
+            <span class="dot min"></span>
+            <span class="dot max"></span>
+        </div>
+        <div class="modal-wrapper">
+            <section class="modal" #modal>
+                <h3 class="modal-title">{{ data.title }}</h3>
+                <p class="modal-message">{{ data.message }}</p>
+                <div class="modal-links" *ngIf="data.links">
+                    <a *ngFor="let link of data.links.split(',')" href="{{ link.trim() }}" target="_blank"
+                        rel="noopener noreferrer">{{ link.trim() }}</a>
+                </div>S
+                <ng-content></ng-content>
+            </section>
+
+        </div>
+    </div>

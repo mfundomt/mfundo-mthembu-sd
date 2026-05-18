@@ -38,3 +38,7 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   }
 }
 
+:host ::ng-deep .modal-message img {
+  max-width: 825px;
+}
+

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommandModalService } from '../../services/command-modal-service';
 
 
 interface CommandEntry {
@@ -21,6 +22,8 @@ interface CommandEntry {
 export class CommandTerminal {
   
   @Input() seedCommands: CommandEntry[] = [];
+
+  private modalService = inject(CommandModalService);
 
   levelName = 'Overview';
   commandHistory: CommandEntry[] = [];
@@ -58,19 +61,25 @@ export class CommandTerminal {
 
     switch (input.toLowerCase()) {
       case 'git checkout about':
-        return 'About Section: Learn about the project structure and components.';
+        this.modalService.openModal(input);
+        return 'Opening About section...';
       case 'git checkout skills':
-        return 'Skills Section: Explore the skills and technologies used in the project.';
+        this.modalService.openModal(input);
+        return 'Opening Skills section...';
       case 'git checkout experience':
-        return 'Experience Section: View the professional experience and projects.';
-      case 'git checkout certifications':
-        return 'Certifications Section: Check out the certifications and achievements.';
+        this.modalService.openModal(input);
+        return 'Opening Experience section...';
+      /*case 'git checkout certifications':
+        this.modalService.openModal(input);
+        return 'Opening Certifications section...';*/
       case 'git checkout education':
-        return 'Education Section: Discover the educational background and qualifications.';
+        this.modalService.openModal(input);
+        return 'Opening Education section...';
       case 'git checkout referrals':
-        return 'Referrals Section: See recommendations and endorsements from colleagues and mentors.';
+        this.modalService.openModal(input);
+        return 'Opening Referrals section...';
       case 'help':
-        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout certifications", "git checkout education", "git checkout referrals", "clear".';
+        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout education", "git checkout referrals", "clear".';
         case 'clear':       
          this.commandHistory = [];
         return null;

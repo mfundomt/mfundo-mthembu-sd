@@ -6,7 +6,12 @@ import { CommandTerminal } from './components/command-terminal/command-terminal'
 
 @Component({
   selector: 'app-root',
-  imports: [CommandTerminal, RouterOutlet, CommonModule, RouterModule],
+  imports: [
+    CommandTerminal,
+    RouterOutlet,
+    CommonModule,
+    RouterModule
+  ],
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css'

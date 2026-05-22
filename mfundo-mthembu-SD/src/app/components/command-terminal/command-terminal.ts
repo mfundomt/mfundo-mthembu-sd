@@ -77,6 +77,9 @@ export class CommandTerminal {
       case 'git checkout experience':
         this.modalService.openModal(input);
         return 'Opening Experience section...';
+      case 'git checkout projects':
+      this.modalService.openModal(input);
+      return 'Opening Projects section...';
       /*case 'git checkout certifications':
         this.modalService.openModal(input);
         return 'Opening Certifications section...';*/
@@ -86,8 +89,11 @@ export class CommandTerminal {
       case 'git checkout referrals':
         this.modalService.openModal(input);
         return 'Opening Referrals section...';
+      case 'git checkout contacts':
+        this.modalService.openModal(input);
+        return 'Opening Contacts section...';
       case 'help':
-        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout education", "git checkout referrals", "clear".';
+        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts", "clear".';
         case 'clear':       
          this.commandHistory = [];
         return null;

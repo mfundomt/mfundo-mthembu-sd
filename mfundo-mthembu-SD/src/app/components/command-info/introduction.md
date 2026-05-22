@@ -11,6 +11,6 @@ Whether you’re here as a recruiter, developer, collaborator, or simply curious
 
 If you’re ready, begin the journey below.
 
-PS: Choose Mode? Recruiter ? Dev ?
+PS: Choose Mode: Recruiter || Dev 
 
-<div class="button-group"><button class="button"><div class="button-outer"><div class="button-inner"><span>Recruiter Mode</span></div></div></button>  <button class="button"><div class="button-outer"><div class="button-inner"><span>Dev Mode</span></div></div></button></div>
+<div class="button-group"><button class="button" data-mode="recruiter"><div class="button-outer"><div class="button-inner"><span>Recruiter Mode</span></div></div></button>  <button class="button" data-mode="developer"><div class="button-outer"><div class="button-inner"><span>Dev Mode</span></div></div></button></div>

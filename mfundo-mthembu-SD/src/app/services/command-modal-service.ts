@@ -4,6 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { marked } from 'marked';
 import { CommandModal } from '../components/command-modal/command-modal';
+import { RecruiterStateService } from './recruiter-state-service';
+
+// Configure marked to add lazy loading to images
+const renderer = new marked.Renderer();
+renderer.image = ({ href, title, text }) => {
+  return `<img src="${href}" alt="${text}" ${title ? `title="${title}"` : ''} loading="lazy" decoding="async" />`;
+};
+marked.setOptions({ renderer });
 
 @Injectable({
   providedIn: 'root',
@@ -12,32 +20,41 @@ export class CommandModalService {
 
   private commandExecuted = new Subject<string>();
   commandExecuted$ = this.commandExecuted.asObservable();
+  isRecruiterMode = false;
 
   constructor(
     private http: HttpClient,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private recruiterStateService: RecruiterStateService
+  ) {
+    this.recruiterStateService.isRecruiterMode$.subscribe(mode => {
+      this.isRecruiterMode = mode;
+    });
+  }
 
   openModal(command: string): void {
     const file = this.getFileForCommand(command);
     if (!file) return;
 
+    this.dialog.closeAll();
+
     this.http.get(`assets/command-info/${file}`, { responseType: 'text' }).subscribe({
       next: (raw) => {
         const { title, content } = this.parseFrontmatter(raw);
+        const section = command.replace('git checkout ', '').trim().toLowerCase();
         const htmlContent = marked.parse(content) as string;
+        const panelClass = section === 'introduction' ? 'introduction-modal-panel' : 'command-modal-panel';
         const dialogRef = this.dialog.open(CommandModal, {
-          data: { title, content: htmlContent, links: '' },
+          data: { title, content: htmlContent, links: '', mode: this.isRecruiterMode ? 'recruiter' : 'developer', section },
           width: '90%',
           maxWidth: "900px",
           height: "600px",
-          panelClass: 'command-modal-panel'
+          panelClass
         });
 
         dialogRef.afterClosed().subscribe((result) => {
           if (result) {
             this.commandExecuted.next(result);
-            this.openModal(result);
           }
         });
       }

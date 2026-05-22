@@ -21,6 +21,18 @@ export class CommandModal {
     this.safeContent = this.sanitizer.bypassSecurityTrustHtml(data.content);
   }
 
+  onContentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const cmdLink = target.closest('[data-command]') as HTMLElement;
+    if (cmdLink) {
+      event.preventDefault();
+      const command = cmdLink.getAttribute('data-command');
+      if (command) {
+        this.dialogRef.close(command);
+      }
+    }
+  }
+
   onClose(): void {
     this.dialogRef.close();
   }

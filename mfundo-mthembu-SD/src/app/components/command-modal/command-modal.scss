@@ -1,6 +1,13 @@
 // ── Variables ────────────────────────────────────────────
 $bg-base:        #1e1e1e;
-$bg-titlebar:    #2d2d2d;
+$bg-titlebar:     linear-gradient(
+    135deg,
+    #444444 0%,
+    #999999 25%,
+    #e6e6e6 50%,
+    #999999 75%,
+    #222222 100%
+  ); 
 $bg-levelbar:    #2a2a2a;
 $bg-inputbar:    #181818;
 $border-color:   #333;
@@ -8,7 +15,13 @@ $text-primary:   #e0e0e0;
 $text-muted:     #aaa;
 $text-dim:       #555;
 $green:          #5af78e;
-$font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+$font-mono:      'Monaco', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+
+// ── Modal wrapper ─────────────────────────────────────────
+.terminal-wrap {
+  font-family: $font-mono;
+}
 
 // ── Title bar ─────────────────────────────────────────────
 .titlebar {
@@ -42,3 +55,14 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   max-width: 825px;
 }
 
+:host ::ng-deep .modal-message .cmd-link {
+  cursor: pointer;
+  color: $green;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-left: 4px;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

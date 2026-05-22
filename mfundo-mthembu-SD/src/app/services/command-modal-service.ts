@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 import { marked } from 'marked';
 import { CommandModal } from '../components/command-modal/command-modal';
 
@@ -8,6 +9,9 @@ import { CommandModal } from '../components/command-modal/command-modal';
   providedIn: 'root',
 })
 export class CommandModalService {
+
+  private commandExecuted = new Subject<string>();
+  commandExecuted$ = this.commandExecuted.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -22,12 +26,19 @@ export class CommandModalService {
       next: (raw) => {
         const { title, content } = this.parseFrontmatter(raw);
         const htmlContent = marked.parse(content) as string;
-        this.dialog.open(CommandModal, {
+        const dialogRef = this.dialog.open(CommandModal, {
           data: { title, content: htmlContent, links: '' },
           width: '90%',
           maxWidth: "900px",
           height: "600px",
           panelClass: 'command-modal-panel'
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.commandExecuted.next(result);
+            this.openModal(result);
+          }
         });
       }
     });

@@ -19,11 +19,12 @@ interface CommandEntry {
   standalone: true,
 })
 
-export class CommandTerminal {
+export class CommandTerminal implements OnInit {
   
   @Input() seedCommands: CommandEntry[] = [];
 
   private modalService = inject(CommandModalService);
+
 
   levelName = 'Software Developer';
   commandHistory: CommandEntry[] = [];
@@ -31,6 +32,8 @@ export class CommandTerminal {
   private nextId = 1;
 
   ngOnInit(): void {
+
+
     this.commandHistory = this.seedCommands.map(cmd => ({
       ...cmd,
       id: this.nextId++,
@@ -92,8 +95,11 @@ export class CommandTerminal {
       case 'git checkout contacts':
         this.modalService.openModal(input);
         return 'Opening Contacts section...';
+        case 'git checkout introduction':
+        this.modalService.openModal(input);
+        return 'Opening Introduction section...';
       case 'help':
-        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts", "clear".';
+        return 'Available commands: "git checkout introduction", "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts", "clear".';
         case 'clear':       
          this.commandHistory = [];
         return null;

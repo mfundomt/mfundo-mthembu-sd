@@ -1,6 +1,13 @@
 // ── Variables ────────────────────────────────────────────
 $bg-base:        #1e1e1e;
-$bg-titlebar:    #cac9c9;
+$bg-titlebar:     linear-gradient(
+    135deg,
+    #444444 0%,
+    #999999 25%,
+    #e6e6e6 50%,
+    #999999 75%,
+    #222222 100%
+  ); 
 $bg-levelbar:    #424242;
 $bg-inputbar:    #424242;
 $border-color:   #333;
@@ -31,6 +38,7 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   height: 50.6rem !important;
   border: 1px solid $border-color;
   width: 27% !important;
+  margin: 0.4rem;
 }
 
 // ── Title bar ─────────────────────────────────────────────

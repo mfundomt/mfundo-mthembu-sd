@@ -25,7 +25,7 @@ export class CommandTerminal {
 
   private modalService = inject(CommandModalService);
 
-  levelName = 'Overview';
+  levelName = 'Software Developer';
   commandHistory: CommandEntry[] = [];
   inputValue = '';
   private nextId = 1;
@@ -35,6 +35,14 @@ export class CommandTerminal {
       ...cmd,
       id: this.nextId++,
     }));
+
+    this.modalService.commandExecuted$.subscribe((command) => {
+      this.commandHistory.push({
+        id: this.nextId++,
+        input: command,
+        result: this.processCommand(command),
+      });
+    });
   }
 
   runQuickCommand(command: string): void {

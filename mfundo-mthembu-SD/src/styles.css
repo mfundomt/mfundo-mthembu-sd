@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+.command-modal-panel .mat-mdc-dialog-surface {
+  height: auto !important;
+}
+
+.mat-mdc-dialog-content .mdc-dialog__content .modal-content{
+    background-color: #424242 !important;
+}

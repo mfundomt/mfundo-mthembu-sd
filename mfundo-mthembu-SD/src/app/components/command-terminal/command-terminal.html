@@ -18,7 +18,7 @@
     <div class="level-bar">
         <div class="level-left">
             <span class="bolt" aria-hidden="true">⚡</span>
-            <span class="level-prefix">Level</span>
+            <span class="level-prefix">Level:</span>
             <span class="level-name">{{ levelName }}</span>
         </div>
         <div class="level-btns">
@@ -53,9 +53,12 @@
     <!-- Input bar -->
     <div class="cmd-bar">
         <span class="prompt-sign" aria-hidden="true">$</span>
-        <input #cmdInput class="cmd-input" id="commandTextField" type="text" [(ngModel)]="inputValue"
-            (keydown)="onKeyDown($event)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-            placeholder="type a command..." aria-label="Command input" />
+        <div class="cmd-input-wrap">
+            <input #cmdInput class="cmd-input" id="commandTextField" type="text" [(ngModel)]="inputValue"
+                (ngModelChange)="onInputChange()" (keydown)="onKeyDown($event)" autocomplete="off" autocorrect="off"
+                autocapitalize="off" spellcheck="false" placeholder="type a command..." aria-label="Command input" />
+            <span *ngIf="hint" class="cmd-hint" aria-hidden="true">{{ hint }}</span>
+        </div>
     </div>
 
 </div>

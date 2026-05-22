@@ -1,7 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* macOS-style modal open animation */
+@keyframes macbook-open {
+  0% {
+    opacity: 0;
+    transform: perspective(800px) rotateX(-12deg) scale(0.92) translateY(15px);
+  }
+  50% {
+    opacity: 1;
+    transform: perspective(800px) rotateX(1.5deg) scale(1.005) translateY(-3px);
+  }
+  75% {
+    transform: perspective(800px) rotateX(-0.5deg) scale(1) translateY(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) rotateX(0deg) scale(1) translateY(0);
+  }
+}
+
+.command-modal-panel {
+  animation: macbook-open 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom center;
+}
+
 .command-modal-panel .mat-mdc-dialog-surface {
   height: auto !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Introduction modal — drops from top */
+@keyframes drop-from-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-60vh) scale(0.92);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(8px) scale(1.005);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+  85% {
+    transform: translateY(2px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.introduction-modal-panel {
+  animation: drop-from-top 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.introduction-modal-panel .mat-mdc-dialog-surface {
+  height: auto !important;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .mat-mdc-dialog-content .mdc-dialog__content .modal-content{

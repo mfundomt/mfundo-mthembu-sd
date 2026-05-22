@@ -2,6 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { RecruiterStateService } from '../../services/recruiter-state-service';
+import { CommandModalService } from '../../services/command-modal-service';
 
 @Component({
   selector: 'app-command-modal',
@@ -12,17 +14,40 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class CommandModal {
   safeContent: SafeHtml;
+  isRecruiterMode = false; 
+
+  private sections = ['about', 'skills', 'experience', 'education', 'projects', 'referrals', 'contacts'];
+  currentSection: string;
 
   constructor(
     public dialogRef: MatDialogRef<CommandModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string; content: string; links: string },
-    private sanitizer: DomSanitizer
+    
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; content: string; links: string; mode?: string; section?: string },
+    private sanitizer: DomSanitizer,
+    private recruiterStateService: RecruiterStateService,
+    private modalService: CommandModalService
   ) {
     this.safeContent = this.sanitizer.bypassSecurityTrustHtml(data.content);
+    this.currentSection = data.section || '';
+    this.recruiterStateService.isRecruiterMode$.subscribe(mode => {
+      this.isRecruiterMode = mode;
+    });
   }
 
   onContentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
+
+    // Handle mode selection buttons
+    const modeBtn = target.closest('[data-mode]') as HTMLElement;
+    if (modeBtn) {
+      event.preventDefault();
+      const mode = modeBtn.getAttribute('data-mode');
+      this.recruiterStateService.setRecruiterMode(mode === 'recruiter');
+      this.dialogRef.close('git checkout about');
+      return;
+    }
+
+    // Handle command links
     const cmdLink = target.closest('[data-command]') as HTMLElement;
     if (cmdLink) {
       event.preventDefault();
@@ -30,6 +55,20 @@ export class CommandModal {
       if (command) {
         this.dialogRef.close(command);
       }
+    }
+  }
+
+  onNext(): void {
+    const idx = this.sections.indexOf(this.currentSection);
+    if (idx < this.sections.length - 1) {
+      this.dialogRef.close(`git checkout ${this.sections[idx + 1]}`);
+    }
+  }
+
+  onPrev(): void {
+    const idx = this.sections.indexOf(this.currentSection);
+    if (idx > 0) {
+      this.dialogRef.close(`git checkout ${this.sections[idx - 1]}`);
     }
   }
 

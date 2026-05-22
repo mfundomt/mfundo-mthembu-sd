@@ -18,4 +18,25 @@
                 rel="noopener noreferrer">{{ link.trim() }}</a>
         </div>
     </mat-dialog-content>
+
+    <!-- Fixed nav buttons at bottom -->
+    <div *ngIf="isRecruiterMode" class="nav-buttons">
+        <div class="button-group">
+            <button class="button" (click)="onPrev()" *ngIf="currentSection !== 'about'">
+                <div class="button-outer">
+                    <div class="button-inner">
+                        <span>Previous</span>
+                    </div>
+                </div>
+            </button>
+
+            <button class="button" (click)="onNext()" *ngIf="currentSection !== 'contacts'">
+                <div class="button-outer">
+                    <div class="button-inner">
+                        <span>Next</span>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
 </div>

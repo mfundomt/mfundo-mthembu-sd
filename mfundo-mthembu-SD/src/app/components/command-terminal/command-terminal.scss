@@ -99,7 +99,7 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 12px;
 
   .bolt       { color: #f5c518; }
-  .level-prefix { color: #888; }
+  .level-prefix { color:$text-primary; }
   .level-name { color: $text-primary; font-style: italic; }
 }
 
@@ -209,6 +209,29 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   font-family: $font-mono;
   font-size: 13px;
   caret-color: $green;
+  position: relative;
+  z-index: 1;
 
   &::placeholder { color: $text-dim; }
+}
+
+.cmd-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cmd-hint {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: $font-mono;
+  font-size: 13px;
+  color: #888;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0.8;
+  z-index: 0;
 }

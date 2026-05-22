@@ -21,6 +21,20 @@ $font-mono:      'Monaco', 'JetBrains Mono', 'Fira Code', 'Courier New', monospa
 // ── Modal wrapper ─────────────────────────────────────────
 .terminal-wrap {
   font-family: $font-mono;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modal-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-buttons {
+  flex-shrink: 0;
+  padding: 12px 16px;
 }
 
 // ── Title bar ─────────────────────────────────────────────
@@ -55,7 +69,8 @@ $font-mono:      'Monaco', 'JetBrains Mono', 'Fira Code', 'Courier New', monospa
   max-width: 825px;
 }
 
-:host ::ng-deep .modal-message .button-group {
+:host ::ng-deep .modal-message .button-group,
+.nav-buttons .button-group {
   display: flex;
   justify-content: center;
   gap: 1em;
@@ -74,13 +89,13 @@ $font-mono:      'Monaco', 'JetBrains Mono', 'Fira Code', 'Courier New', monospa
 }
 
 // ── Button styling (Uiverse.io by FColombati) ─────────────
-:host ::ng-deep .modal-message .button {
+:host ::ng-deep .modal-message .button,
+.nav-buttons .button {
   all: unset;
   cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(236, 152, 24, 0);
   position: relative;
   border-radius: 100em;
-  background-color: rgba(0, 0, 0, 0.75);
   box-shadow:
     -0.15em -0.15em 0.15em -0.075em rgba(5, 5, 5, 0.25),
     0.0375em 0.0375em 0.0675em 0 rgba(5, 5, 5, 0.1);

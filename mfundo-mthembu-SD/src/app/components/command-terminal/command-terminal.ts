@@ -22,14 +22,31 @@ interface CommandEntry {
 export class CommandTerminal implements OnInit {
   
   @Input() seedCommands: CommandEntry[] = [];
+  suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', 'referrals', 'contacts', 'introduction'];
 
   private modalService = inject(CommandModalService);
 
+  private availableCommands = [
+    'git checkout about',
+    'git checkout skills',
+    'git checkout experience',
+    'git checkout projects',
+    'git checkout education',
+    'git checkout referrals',
+    'git checkout contacts',
+    'git checkout introduction',
+    'show goal',
+    'help',
+    'clear'
+  ];
 
   levelName = 'Software Developer';
   commandHistory: CommandEntry[] = [];
   inputValue = '';
+  hint = '';
   private nextId = 1;
+  private inputHistory: string[] = [];
+  private historyIndex = -1;
 
   ngOnInit(): void {
 
@@ -53,10 +70,54 @@ export class CommandTerminal implements OnInit {
   }
 
   onKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Tab' && this.hint) {
+      event.preventDefault();
+      this.inputValue = this.hint;
+      this.hint = '';
+      this.updateHint();
+      return;
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (this.inputHistory.length > 0 && this.historyIndex < this.inputHistory.length - 1) {
+        this.historyIndex++;
+        this.inputValue = this.inputHistory[this.inputHistory.length - 1 - this.historyIndex];
+        this.updateHint();
+      }
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (this.historyIndex > 0) {
+        this.historyIndex--;
+        this.inputValue = this.inputHistory[this.inputHistory.length - 1 - this.historyIndex];
+      } else {
+        this.historyIndex = -1;
+        this.inputValue = '';
+      }
+      this.updateHint();
+      return;
+    }
     if (event.key === 'Enter' && this.inputValue.trim()) {
+      this.inputHistory.push(this.inputValue.trim());
+      this.historyIndex = -1;
       this.addCommand(this.inputValue.trim());
       this.inputValue = '';
+      this.hint = '';
     }
+  }
+  onInputChange(): void {
+    this.updateHint();
+  }
+
+  private updateHint(): void {
+    const val = this.inputValue.toLowerCase().trim();
+    if (!val) {
+      this.hint = '';
+      return;
+    }
+    const match = this.availableCommands.find(cmd => cmd.toLowerCase().startsWith(val) && cmd.toLowerCase() !== val);
+    this.hint = match || '';
   }
 
 
@@ -71,6 +132,7 @@ export class CommandTerminal implements OnInit {
   private processCommand(input: string): string | null {
 
     switch (input.toLowerCase()) {
+
       case 'git checkout about':
         this.modalService.openModal(input);
         return 'Opening About section...';
@@ -98,8 +160,10 @@ export class CommandTerminal implements OnInit {
         case 'git checkout introduction':
         this.modalService.openModal(input);
         return 'Opening Introduction section...';
+        case 'show goal':
+        return "Goal: Navigate project sections using git terminal commands";
       case 'help':
-        return 'Available commands: "git checkout introduction", "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts", "clear".';
+        return 'Available commands: "git checkout introduction", "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts","help", "clear".';
         case 'clear':       
          this.commandHistory = [];
         return null;

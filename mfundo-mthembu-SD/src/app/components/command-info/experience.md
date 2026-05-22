@@ -2,7 +2,7 @@ Experience
 ---
 
 ## Software Developer
-*Current Role*
+*March 2025 - Current Role*
 
 - Built and deployed a production application within the first year of employment, contributing directly to director-level KPI deliverables.
 - Developed and maintained the backend API for the application using C#, .NET, and SQL Server.

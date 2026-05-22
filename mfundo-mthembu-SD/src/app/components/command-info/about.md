@@ -12,8 +12,8 @@ I'm drawn to the *why* behind systems just as much as the *how*. Outside of code
 
 Feel free to explore the rest of this terminal:
 
-- `git checkout skills` — Technologies & tools  
-- `git checkout experience` — Professional background  
-- `git checkout education` — Academic qualifications  
-- `git checkout certifications` — Certifications & achievements  
-- `git checkout referrals` — Endorsements & recommendations
+- `git checkout skills` — Technologies & tools <a class="cmd-link" data-command="git checkout skills">↗</a>
+- `git checkout experience` — Professional background <a class="cmd-link" data-command="git checkout experience">↗</a>
+- `git checkout education` — Academic qualifications <a class="cmd-link" data-command="git checkout education">↗</a>
+- `git checkout certifications` — Certifications & achievements <a class="cmd-link" data-command="git checkout certifications">↗</a>
+- `git checkout referrals` — Endorsements & recommendations <a class="cmd-link" data-command="git checkout referrals">↗</a>

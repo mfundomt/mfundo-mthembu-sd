@@ -17,3 +17,5 @@ Feel free to explore the rest of this terminal:
 - `git checkout education` — Academic qualifications <a class="cmd-link" data-command="git checkout education">↗</a>
 - `git checkout certifications` — Certifications & achievements <a class="cmd-link" data-command="git checkout certifications">↗</a>
 - `git checkout referrals` — Endorsements & recommendations <a class="cmd-link" data-command="git checkout referrals">↗</a>
+- `git checkout projects` — Mindwork, Frameworks & tools <a class="cmd-link" data-command="git checkout projects">↗</a>
+- `git checkout contacts` — Communications & Connections <a class="cmd-link" data-command="git checkout contacts">↗</a>

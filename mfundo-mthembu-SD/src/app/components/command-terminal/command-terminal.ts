@@ -22,7 +22,7 @@ interface CommandEntry {
 export class CommandTerminal implements OnInit {
   
   @Input() seedCommands: CommandEntry[] = [];
-  suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', 'referrals', 'contacts', 'introduction'];
+  suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', "certificates", 'referrals', 'contacts', 'introduction'];
 
   private modalService = inject(CommandModalService);
 
@@ -32,6 +32,7 @@ export class CommandTerminal implements OnInit {
     'git checkout experience',
     'git checkout projects',
     'git checkout education',
+    'git checkout certifications',
     'git checkout referrals',
     'git checkout contacts',
     'git checkout introduction',
@@ -145,9 +146,9 @@ export class CommandTerminal implements OnInit {
       case 'git checkout projects':
       this.modalService.openModal(input);
       return 'Opening Projects section...';
-      /*case 'git checkout certifications':
+      case 'git checkout certifications':
         this.modalService.openModal(input);
-        return 'Opening Certifications section...';*/
+        return 'Opening Certifications section...';
       case 'git checkout education':
         this.modalService.openModal(input);
         return 'Opening Education section...';
@@ -157,13 +158,10 @@ export class CommandTerminal implements OnInit {
       case 'git checkout contacts':
         this.modalService.openModal(input);
         return 'Opening Contacts section...';
-        case 'git checkout introduction':
-        this.modalService.openModal(input);
-        return 'Opening Introduction section...';
         case 'show goal':
         return "Goal: Navigate project sections using git terminal commands";
       case 'help':
-        return 'Available commands: "git checkout introduction", "git checkout about", "git checkout skills", "git checkout experience","git checkout projects", "git checkout education", "git checkout referrals", "git checkout contacts","help", "clear".';
+        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout projects", "git checkout certifications", "git checkout education", "git checkout referrals", "git checkout contacts","help", "clear".';
         case 'clear':       
          this.commandHistory = [];
         return null;

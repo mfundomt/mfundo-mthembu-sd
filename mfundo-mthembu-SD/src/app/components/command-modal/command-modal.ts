@@ -16,7 +16,7 @@ export class CommandModal {
   safeContent: SafeHtml;
   isRecruiterMode = false; 
 
-  private sections = ['about', 'skills', 'experience', 'education', 'projects', 'referrals', 'contacts'];
+  private sections = ['about', 'skills', 'experience', 'education', 'certifications', 'projects', 'referrals', 'contacts'];
   currentSection: string;
 
   constructor(

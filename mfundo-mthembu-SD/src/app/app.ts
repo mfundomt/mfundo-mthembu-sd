@@ -4,11 +4,13 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { CommandTerminal } from './components/command-terminal/command-terminal';
 import { CommandModalService } from './services/command-modal-service';
+import { InfoPanel } from './components/info-panel/info-panel';
 
 @Component({
   selector: 'app-root',
   imports: [
     CommandTerminal,
+    InfoPanel,
     RouterOutlet,
     CommonModule,
     RouterModule
@@ -24,8 +26,15 @@ export class App implements OnDestroy {
     seedCommands = [
     { input: 'level overview', result: null },
     { input: 'hint', result: 'Try "git checkout" to explore the project structure!' },
-    { input: 'show goal', result: 'Goal: Navigate project sections using git terminal commands.' },
   ];
+
+  infoPanelTitle = '';
+  infoPanelContent = '';
+
+  onInfoPanel(event: { title: string; content: string }) {
+    this.infoPanelTitle = event.title;
+    this.infoPanelContent = event.content;
+  }
 
   constructor() {
     afterNextRender(() => {

@@ -33,8 +33,11 @@ html, body {
 
 .command-modal-panel .mat-mdc-dialog-surface {
   height: auto !important;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
+  background: rgba(30, 30, 30, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid #333;
 }
 
 /* Introduction modal — drops from top */
@@ -66,10 +69,36 @@ html, body {
 
 .introduction-modal-panel .mat-mdc-dialog-surface {
   height: auto !important;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
+  background: rgba(30, 30, 30, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid #333;
 }
 
 .mat-mdc-dialog-content .mdc-dialog__content .modal-content{
-    background-color: #424242 !important;
+    background-color: transparent !important;
+}
+
+/* Semi-transparent dark modal backdrop */
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Brighten modal text for readability */
+.mat-mdc-dialog-surface {
+  color: #f0f0f0 !important;
+}
+
+.mat-mdc-dialog-surface h1,
+.mat-mdc-dialog-surface h2,
+.mat-mdc-dialog-surface h3,
+.mat-mdc-dialog-surface h4 {
+  color: #ffffff !important;
+}
+
+.mat-mdc-dialog-surface p,
+.mat-mdc-dialog-surface li,
+.mat-mdc-dialog-surface span {
+  color: #e8e8e8 !important;
 }

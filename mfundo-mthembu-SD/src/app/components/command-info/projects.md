@@ -9,10 +9,10 @@ A shadow service that passively mirrors and captures API traffic flowing through
 - **Core:** C#, .NET 8, ASP.NET Core Middleware
 - **Storage:** SQL Server (traffic logs) + in-memory cache for live feed
 - **Real-time:** SignalR WebSocket feed for live traffic view
-- **Dashboard:** Angular (your portfolio stack)
+- **Dashboard:** Angular
 - **Packaging:** NuGet package (drop into any .NET API) 
 
-**Status:** <span class="progress-code">In Progress </spam>
+**Status:** <span class="progress-code">In Progress</span>
 
 ---
 
@@ -25,7 +25,7 @@ An automation pipeline built with **n8n** that monitors my email inbox for incom
 - **Notification:** Push API
 - **Storage:** SQL Server for crawl history + deduplication
 
-**Status:** <span class="progress-code">In Progress </spam>
+**Status:** <span class="progress-code">In Progress</span>
 
 ---
 

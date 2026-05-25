@@ -7,11 +7,10 @@ Education
 
 ## Bachelor’s Degree in Philosophy and Information Systems from UCT
 
-- Completed with a disctinction in INF 2011S (Systems Design & Development), and PHI 3024F (Logic & Language)
+- Completed with a distinction in INF 2011S (Systems Design & Development), and PHI 3024F (Logic & Language)
 - Combined studies in technology, systems thinking, and philosophy
 - Focused on information systems, software development, and analytical reasoning
 
-## Certifications
+---
 
-- SAP Customer Data Cloud Essentials
-- SAP Commerce Cloud and SAP S/4HANA Cloud Integrations – Record of Achievement
+> See full certifications: `git checkout certifications` <a class="cmd-link" data-command="git checkout certifications">↗</a>

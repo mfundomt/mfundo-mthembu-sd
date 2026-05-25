@@ -1,35 +1,56 @@
 Projects
 ---
 
-## 🕷️ Web Crawler
+## 👣 FootLook — Zero-Interaction API Observability
 
-A custom-built web crawler that systematically navigates and extracts data from targeted websites.
+A shadow service that passively mirrors and captures API traffic flowing through a system — without interacting with or modifying the target system. It observes the "footprint" of every request/response like a shadow: always present, never interfering.
 
-**Tech Stack:** Python, BeautifulSoup/Scrapy, REST APIs  
-**Status:** In Progress
+**Tech Stack:**
+- **Core:** C#, .NET 8, ASP.NET Core Middleware
+- **Storage:** SQL Server (traffic logs) + in-memory cache for live feed
+- **Real-time:** SignalR WebSocket feed for live traffic view
+- **Dashboard:** Angular (your portfolio stack)
+- **Packaging:** NuGet package (drop into any .NET API) 
+
+**Status:** <span class="progress-code">In Progress </spam>
 
 ---
 
-## 📬 Newsletter Intelligence Automation
+## 📈 CareerPulse — Intelligent Web Crawler + Newsletter System
 
 An automation pipeline built with **n8n** that monitors my email inbox for incoming newsletters, filters and categorises them based on relevance to my career path (software engineering, architecture, cybersecurity), and sends a daily push notification summarising what's worth reading.
 
-**Tech Stack:** n8n, Email IMAP/API, Push Notifications  
-**Highlights:**
-- Automated sorting removes noise from my inbox
-- Career-path-aware filtering ensures only relevant content surfaces
-- Daily digest delivered via push notification
+**Tech Stack:** Scrapy, n8n, Email IMAP/API, Push Notifications  
+- **Orchestration:** n8n (self-hosted)
+- **Notification:** Push API
+- **Storage:** SQL Server for crawl history + deduplication
 
-**Status:** In Progress
+**Status:** <span class="progress-code">In Progress </spam>
 
 ---
 
-## 🔧 Web API (Coming Soon)
+## 🔧 Personal Portfolio (This Site)
 
-A RESTful API project — details and scope to be defined. Watch this space.
+A terminal-themed portfolio website designed to stand out from traditional CV sites. Recruiters and developers interact with a command-line interface to explore sections like skills, experience, and projects — complete with autocomplete hints, command history, and recruiter/developer mode switching.
 
-**Tech Stack:** C#, .NET, SQL Server  
-**Status:** Planning
+**Tech Stack:**
+- **Framework:** Angular 21 with Server-Side Rendering (SSR)
+- **Language:** TypeScript
+- **UI:** Angular Material (Dialog), custom terminal CSS
+- **Markdown Rendering:** marked.js (dynamic content loading)
+- **Server:** Express 5 + @angular/ssr
+- **Build:** esbuild via @angular/build
+- **Styling:** SCSS + CSS animations (custom modal transitions)
+- **Performance:** Lazy-loaded images, client hydration with event replay, requestIdleCallback scheduling
+
+**Features:**
+- Command-based navigation (`git checkout <section>`)
+- Ghost-text autocomplete and input history (↑/↓)
+- Recruiter Mode / Developer Mode content switching
+- Animated modal system with next/prev navigation
+- Fully server-side rendered for SEO and fast first paint
+
+**Status:** <span class="progress-code">Completed</span>
 
 ---
 

@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { Input, OnInit } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Input, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommandModalService } from '../../services/command-modal-service';
+import { RecruiterStateService } from '../../services/recruiter-state-service';
 
 
 interface CommandEntry {
@@ -19,12 +20,14 @@ interface CommandEntry {
   standalone: true,
 })
 
-export class CommandTerminal implements OnInit {
+export class CommandTerminal implements OnInit, AfterViewChecked {
   
+  @ViewChild('cmdDisplay') private cmdDisplay!: ElementRef<HTMLDivElement>;
   @Input() seedCommands: CommandEntry[] = [];
-  suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', "certificates", 'referrals', 'contacts', 'introduction'];
+  suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', 'certifications', 'referrals', 'contacts', 'introduction'];
 
   private modalService = inject(CommandModalService);
+  private recruiterState = inject(RecruiterStateService);
 
   private availableCommands = [
     'git checkout about',
@@ -38,13 +41,15 @@ export class CommandTerminal implements OnInit {
     'git checkout introduction',
     'show goal',
     'help',
-    'clear'
+    'clear',
+    'switch mode'
   ];
 
   levelName = 'Software Developer';
   commandHistory: CommandEntry[] = [];
   inputValue = '';
   hint = '';
+  @Output() infoPanel = new EventEmitter<{ title: string; content: string }>();
   private nextId = 1;
   private inputHistory: string[] = [];
   private historyIndex = -1;
@@ -58,12 +63,22 @@ export class CommandTerminal implements OnInit {
     }));
 
     this.modalService.commandExecuted$.subscribe((command) => {
+      const section = command.replace('git checkout ', '').trim();
       this.commandHistory.push({
         id: this.nextId++,
         input: command,
-        result: this.processCommand(command),
+        result: `Opening ${section} section...`,
       });
+      // Open the next modal (service handles deduplication)
+      this.modalService.openModal(command);
     });
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.cmdDisplay) {
+      const el = this.cmdDisplay.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    }
   }
 
   runQuickCommand(command: string): void {
@@ -159,12 +174,22 @@ export class CommandTerminal implements OnInit {
         this.modalService.openModal(input);
         return 'Opening Contacts section...';
         case 'show goal':
-        return "Goal: Navigate project sections using git terminal commands";
+        this.infoPanel.emit({ title: '🎯 Goal', content: 'Navigate project sections using git terminal commands.\n\nUse "git checkout <section>" to explore each part of the portfolio.' });
+        return null;
       case 'help':
-        return 'Available commands: "git checkout about", "git checkout skills", "git checkout experience", "git checkout projects", "git checkout certifications", "git checkout education", "git checkout referrals", "git checkout contacts","help", "clear".';
+        this.infoPanel.emit({
+          title: '📖 Help',
+          content: 'Available commands:\n\n• git checkout <section>\n• switch mode\n• show goal\n• help\n• clear\n\nSections:\nabout, skills, experience, projects,\ncertifications, education, referrals, contacts'
+        });
+        return null;
         case 'clear':       
          this.commandHistory = [];
         return null;
+      case 'switch mode':
+        const currentMode = this.recruiterState.isRecruiterMode;
+        this.recruiterState.setRecruiterMode(!currentMode);
+        const newMode = !currentMode ? 'Recruiter' : 'Developer';
+        return `Switched to ${newMode} mode.`;
       default:
         return `Unknown command: "${input}". Type "help" for available commands.`;
     }

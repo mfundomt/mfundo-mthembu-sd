@@ -27,18 +27,52 @@ $font-mono:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   white-space: nowrap;
 }
 
+// ── Host positioning ──────────────────────────────────────
+:host {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding-bottom: 13px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    padding: 0 0 24px;
+  }
+}
+
 // ── Wrapper ───────────────────────────────────────────────
 .terminal-wrap {
   font-family: $font-mono;
-  background: $bg-base;
-  border-radius: 10px;
+  background: rgba($bg-base, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 50.6rem !important;
+  height: 100%;
   border: 1px solid $border-color;
-  width: 27% !important;
-  margin: 0.4rem;
+  width: 450px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  // ── Responsive ──────────────────────────────────────────
+  @media (max-width: 1024px) {
+    width: 50%;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 95vh;
+    margin: 0 auto;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 480px) {
+    width: 95%;
+    height: 95vh;
+    margin: 0 auto;
+    border-radius: 6px;
+  }
 }
 
 // ── Title bar ─────────────────────────────────────────────

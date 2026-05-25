@@ -32,9 +32,18 @@ export class CommandModalService {
     });
   }
 
+  private lastOpenCommand = '';
+  private lastOpenTime = 0;
+
   openModal(command: string): void {
     const file = this.getFileForCommand(command);
     if (!file) return;
+
+    // Deduplicate rapid-fire calls for same command
+    const now = Date.now();
+    if (command === this.lastOpenCommand && now - this.lastOpenTime < 2000) return;
+    this.lastOpenCommand = command;
+    this.lastOpenTime = now;
 
     this.dialog.closeAll();
 

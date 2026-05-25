@@ -5,10 +5,14 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class RecruiterStateService {
-  private isRecruiterMode = new BehaviorSubject<boolean>(false);
-  isRecruiterMode$ = this.isRecruiterMode.asObservable();
+  private isRecruiterModeSubject = new BehaviorSubject<boolean>(false);
+  isRecruiterMode$ = this.isRecruiterModeSubject.asObservable();
+
+  get isRecruiterMode(): boolean {
+    return this.isRecruiterModeSubject.value;
+  }
 
   setRecruiterMode(isRecruiter: boolean): void {
-    this.isRecruiterMode.next(isRecruiter);
+    this.isRecruiterModeSubject.next(isRecruiter);
   }
 }

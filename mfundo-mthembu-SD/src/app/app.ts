@@ -1,16 +1,13 @@
-import { Component, signal, inject, afterNextRender, OnDestroy } from '@angular/core';
+import { Component, signal, afterNextRender, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { CommandTerminal } from './components/command-terminal/command-terminal';
-import { CommandModalService } from './services/command-modal-service';
-import { InfoPanel } from './components/info-panel/info-panel';
+import { DesktopComponent } from './components/desktop/desktop';
 
 @Component({
   selector: 'app-root',
   imports: [
-    CommandTerminal,
-    InfoPanel,
+    DesktopComponent,
     RouterOutlet,
     CommonModule,
     RouterModule
@@ -21,20 +18,7 @@ import { InfoPanel } from './components/info-panel/info-panel';
 })
 export class App implements OnDestroy {
   protected readonly title = signal('mfundo-mthembu-SD');
-  private modalService = inject(CommandModalService);
   private vantaEffect: any;
-    seedCommands = [
-    { input: 'level overview', result: null },
-    { input: 'hint', result: 'Try "git checkout" to explore the project structure!' },
-  ];
-
-  infoPanelTitle = '';
-  infoPanelContent = '';
-
-  onInfoPanel(event: { title: string; content: string }) {
-    this.infoPanelTitle = event.title;
-    this.infoPanelContent = event.content;
-  }
 
   constructor() {
     afterNextRender(() => {
@@ -55,11 +39,6 @@ export class App implements OnDestroy {
           zoom: 1.03
         });
       }
-
-      // Defer modal to avoid blocking FCP/LCP
-      requestIdleCallback(() => {
-        this.modalService.openModal('git checkout introduction');
-      });
     });
   }
 

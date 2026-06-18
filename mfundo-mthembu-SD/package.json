@@ -12,6 +12,7 @@
   "private": true,
   "packageManager": "npm@11.12.1",
   "dependencies": {
+    "@angular/animations": "^21.2.0",
     "@angular/cdk": "^21.2.10",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
@@ -24,6 +25,7 @@
     "@angular/ssr": "^21.2.10",
     "express": "^5.1.0",
     "marked": "^18.0.3",
+    "ngx-windows": "^1.0.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

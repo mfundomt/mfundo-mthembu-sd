@@ -1,11 +1,16 @@
 import {
   Component, inject, afterNextRender, OnDestroy, DestroyRef,
-  signal, ChangeDetectionStrategy
+  signal, ChangeDetectionStrategy, PLATFORM_ID
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgwWindowsManagerService, NgwWindowsContainerComponent } from 'ngx-windows';
-import { DesktopIconComponent, DesktopFile } from '../desktop-icon/desktop-icon';
+import {
+  DesktopIconComponent,
+  DesktopFile,
+  DesktopIconPosition,
+  DesktopIconPositionChange,
+} from '../desktop-icon/desktop-icon';
 import { TaskbarComponent } from '../taskbar/taskbar';
 import { FileViewerComponent } from '../file-viewer/file-viewer';
 import { TerminalWindowComponent } from '../terminal-window/terminal-window';
@@ -25,9 +30,11 @@ const DESKTOP_FILES: DesktopFile[] = [
 
 // Default window sizes per type
 const WINDOW_SIZES: Record<string, { w: number; h: number }> = {
-  terminal: { w: 500, h: 520 },
+  terminal: { w: 500, h: 800 },
   default:  { w: 660, h: 500 },
 };
+
+const ICON_POSITIONS_STORAGE_KEY = 'desktop.icon.positions.v1';
 
 @Component({
   selector: 'app-desktop',
@@ -43,12 +50,14 @@ const WINDOW_SIZES: Record<string, { w: number; h: number }> = {
   template: `
     <div class="desktop" (click)="onDesktopClick()">
       <!-- Desktop icons -->
-      <div class="icon-grid" (click)="$event.stopPropagation()">
-        @for (file of desktopFiles; track file.id) {
+      <div class="icon-grid">
+        @for (file of desktopFiles; track file.id; let i = $index) {
           <app-desktop-icon
             [file]="file"
             [selected]="selectedId() === file.id"
+            [position]="getIconPosition(file.id, i)"
             (select)="selectedId.set($event.id)"
+            (positionChange)="onIconPositionChange($event)"
             (open)="openFile($event)" />
         }
       </div>
@@ -77,13 +86,8 @@ const WINDOW_SIZES: Record<string, { w: number; h: number }> = {
 
     .icon-grid {
       position: absolute;
-      top: 16px;
-      left: 16px;
-      display: grid;
-      grid-template-columns: 84px;
-      gap: 8px;
+      inset: 0;
       z-index: 10;
-      /* Allow icons to stack vertically in one column on the left */
     }
 
     ngw-windows-container {
@@ -97,18 +101,27 @@ const WINDOW_SIZES: Record<string, { w: number; h: number }> = {
 export class DesktopComponent implements OnDestroy {
   nwm = inject(NgwWindowsManagerService);
   private destroyRef = inject(DestroyRef);
+  private platformId = inject(PLATFORM_ID);
   private modalService = inject(CommandModalService);
+  private isBrowser = isPlatformBrowser(this.platformId);
 
   desktopFiles = DESKTOP_FILES;
   selectedId = signal<string | null>(null);
+  iconPositions = signal<Record<string, DesktopIconPosition>>({});
 
   // Track open window IDs per section so we don't duplicate
   private openWindows = new Map<string, string>();
 
   constructor() {
+    if (this.isBrowser) {
+      this.iconPositions.set(this.loadIconPositions());
+    }
+
     afterNextRender(() => {
       // Open terminal by default after a brief delay so the container is ready
-      setTimeout(() => this.openTerminal(), 200);
+      if (this.isBrowser) {
+        setTimeout(() => this.openTerminal(), 200);
+      }
     });
 
     // React to terminal commands that open sections
@@ -135,12 +148,34 @@ export class DesktopComponent implements OnDestroy {
       return;
     }
 
-    if (file.id === 'terminal') {
-      this.openTerminal();
+    switch (file.id) {
+      case 'terminal':
+        this.openTerminal();
+        return;
+    }
+
+    if (file.command) {
+      this.modalService.openModal(`git checkout ${file.command}`);
       return;
     }
 
     this.openFileWindow(file);
+  }
+
+  getIconPosition(fileId: string, index: number): DesktopIconPosition {
+    const saved = this.iconPositions()[fileId];
+    return saved ?? this.defaultIconPosition(index);
+  }
+
+  onIconPositionChange(event: DesktopIconPositionChange) {
+    this.iconPositions.update((current) => {
+      const next = {
+        ...current,
+        [event.id]: { x: event.x, y: event.y },
+      };
+      this.saveIconPositions(next);
+      return next;
+    });
   }
 
   private openTerminal() {
@@ -169,7 +204,6 @@ export class DesktopComponent implements OnDestroy {
       });
     });
   }
-
   private openFileWindow(file: DesktopFile) {
     const size = WINDOW_SIZES['default'];
     // Cascade offset based on how many windows are open
@@ -196,5 +230,49 @@ export class DesktopComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.nwm.removeAllWindows();
+  }
+
+  private defaultIconPosition(index: number): DesktopIconPosition {
+    return {
+      x: 16,
+      y: 16 + index * 92,
+    };
+  }
+
+  private loadIconPositions(): Record<string, DesktopIconPosition> {
+    if (!this.isBrowser) return {};
+
+    try {
+      const raw = localStorage.getItem(ICON_POSITIONS_STORAGE_KEY);
+      if (!raw) return {};
+
+      const parsed = JSON.parse(raw) as Record<string, DesktopIconPosition>;
+      const allowedIds = new Set(this.desktopFiles.map((file) => file.id));
+      const sanitized: Record<string, DesktopIconPosition> = {};
+
+      for (const [id, pos] of Object.entries(parsed)) {
+        if (
+          allowedIds.has(id) &&
+          typeof pos?.x === 'number' &&
+          typeof pos?.y === 'number'
+        ) {
+          sanitized[id] = { x: pos.x, y: pos.y };
+        }
+      }
+
+      return sanitized;
+    } catch {
+      return {};
+    }
+  }
+
+  private saveIconPositions(positions: Record<string, DesktopIconPosition>) {
+    if (!this.isBrowser) return;
+
+    try {
+      localStorage.setItem(ICON_POSITIONS_STORAGE_KEY, JSON.stringify(positions));
+    } catch {
+      // Storage can fail in private mode or when quotas are exceeded.
+    }
   }
 }

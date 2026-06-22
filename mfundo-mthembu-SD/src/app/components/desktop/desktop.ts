@@ -130,7 +130,13 @@ export class DesktopComponent implements OnDestroy {
       .subscribe((command) => {
         const section = command.replace('git checkout ', '').trim().toLowerCase();
         const file = DESKTOP_FILES.find(f => f.command === section);
-        if (file) this.openFile(file);
+        if (file) {
+          this.openFile(file);
+          return;
+        }
+
+        // Support modal-only commands (e.g. project explorer folders).
+        this.modalService.openModal(command);
       });
   }
 
@@ -151,6 +157,12 @@ export class DesktopComponent implements OnDestroy {
     switch (file.id) {
       case 'terminal':
         this.openTerminal();
+        return;
+      case 'projects':
+        this.modalService.openModal('git checkout projects-explorer');
+        return;
+      case 'skills':
+        this.modalService.openModal('git checkout skills-explorer');
         return;
     }
 

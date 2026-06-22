@@ -1,10 +1,25 @@
 Contacts
 ---
 
- **Email:** <a href="mailto:mfundo1.mthembu@gmail.com" target="_blank">mfundo1.mthembu@gmail.com</a>  
- **LinkedIn:** <a href="https://www.linkedin.com/in/mfundomthembu" target="_blank" rel="noopener noreferrer">linkedin.com/in/mfundomthembu</a>  
- **GitHub:** <a href="https://github.com/mfundomt" target="_blank" rel="noopener noreferrer">github.com/mfundomt</a>  
- **Location:** Cape Town, South Africa  
+<div class="contact-line">
+	<span class="contact-label">Email:</span>
+	<a href="mailto:mfundo1.mthembu@gmail.com" target="_blank" rel="noopener noreferrer">mfundo1.mthembu@gmail.com</a>
+</div>
+
+<div class="contact-line">
+	<span class="contact-label">LinkedIn:</span>
+	<a href="https://www.linkedin.com/in/mfundomthembu" target="_blank" rel="noopener noreferrer">linkedin.com/in/mfundomthembu</a>
+</div>
+
+<div class="contact-line">
+	<span class="contact-label">GitHub:</span>
+	<a href="https://github.com/mfundomt" target="_blank" rel="noopener noreferrer">github.com/mfundomt</a>
+</div>
+
+<div class="contact-line">
+	<span class="contact-label">Location:</span>
+	<span>Cape Town, South Africa</span>
+</div>
 
 ---
 

@@ -50,11 +50,28 @@ export class CommandModal {
     // Handle command links
     const cmdLink = target.closest('[data-command]') as HTMLElement;
     if (cmdLink) {
+      if (cmdLink.getAttribute('data-activate') === 'dblclick') {
+        return;
+      }
+
       event.preventDefault();
       const command = cmdLink.getAttribute('data-command');
       if (command) {
         this.dialogRef.close(command);
       }
+    }
+  }
+
+  onContentDoubleClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const cmdLink = target.closest('[data-command]') as HTMLElement;
+    if (!cmdLink) return;
+    if (cmdLink.getAttribute('data-activate') !== 'dblclick') return;
+
+    event.preventDefault();
+    const command = cmdLink.getAttribute('data-command');
+    if (command) {
+      this.dialogRef.close(command);
     }
   }
 

@@ -72,7 +72,27 @@ export class CommandModalService {
 
   private getFileForCommand(command: string): string | null {
     const section = command.replace('git checkout ', '').trim().toLowerCase();
-    const validSections = ['introduction','about', 'skills', 'experience', 'education','certifications', 'referrals', 'contacts', 'projects'];
+    const validSections = [
+      'introduction',
+      'about',
+      'skills',
+      'experience',
+      'education',
+      'certifications',
+      'referrals',
+      'contacts',
+      'projects',
+      'projects-explorer',
+      'project-footlook',
+      'project-careerpulse',
+      'project-portfolio',
+      'skills-explorer',
+      'skill-software-development',
+      'skill-frontend-web',
+      'skill-databases-tools',
+      'skill-architecture-interests',
+      'skill-professional-academic',
+    ];
     if (validSections.includes(section)) {
       return `${section}.md`;
     }

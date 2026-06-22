@@ -14,34 +14,49 @@ import { CommandTerminal } from '../command-terminal/command-terminal';
   `,
   styles: [`
     :host {
-      display: block;
+      display: flex;
+      flex-direction: column;
       width: 100%;
       height: 100%;
       overflow: hidden;
+      min-height: 0;
     }
 
     .terminal-window-wrap {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
       display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
     }
 
-    /* Override the host-level height restriction from command-terminal */
+    /* Force the terminal to fill the window content area using flex */
     ::ng-deep app-command-terminal {
-      display: flex;
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      align-items: stretch;
+      flex: 1 !important;
+      min-height: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      align-items: stretch !important;
       padding: 0 !important;
     }
 
     ::ng-deep .terminal-wrap {
+      flex: 1 !important;
+      min-height: 0 !important;
       width: 100% !important;
-      height: 100% !important;
+      height: auto !important;
       border-radius: 0 !important;
       border: none !important;
+    }
+
+    /* Hide only the traffic lights — ngx-window provides those; keep the title label */
+    ::ng-deep .titlebar .traffic-lights {
+      display: none !important;
+    }
+
+    ::ng-deep .titlebar .title-label {
+      margin-top: 0 !important;
+      text-align: center;
     }
   `]
 })

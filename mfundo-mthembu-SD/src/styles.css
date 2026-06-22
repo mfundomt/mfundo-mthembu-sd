@@ -102,3 +102,56 @@ html, body {
 .mat-mdc-dialog-surface span {
   color: #e8e8e8 !important;
 }
+
+/* ── ngx-windows: make the content area fill remaining window height ── */
+ngw-window {
+  display: flex;
+  flex-direction: column;
+}
+
+ngw-window .ngw-window-content {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* ── Terminal inside ngx-window: fill the content area, not the viewport ── */
+ngw-window app-command-terminal {
+  flex: 1 !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+ngw-window .terminal-wrap {
+  flex: 1 !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* ── Inside ngx-window: hide traffic lights (ngx-windows provides its own), keep the title ── */
+ngw-window .titlebar .traffic-lights {
+  display: none !important;
+}
+
+ngw-window .titlebar .title-label {
+  margin-top: 0 !important;
+  text-align: center;
+}
+
+/* Let desktop icons receive clicks on empty desktop space.
+   Keep pointer events enabled for actual windows. */
+app-desktop ngw-windows-container {
+  pointer-events: none;
+}
+
+app-desktop ngw-windows-container ngw-window {
+  pointer-events: auto;
+}

@@ -48,6 +48,29 @@ $font-mono:      'Monaco', 'JetBrains Mono', 'Fira Code', 'Courier New', monospa
   position: relative;
 }
 
+.close-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  background: rgba(30, 30, 30, 0.85);
+  color: $text-primary;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: #ff5f57;
+    color: #fff;
+    outline: none;
+  }
+}
+
 .traffic-lights {
   display: flex;
   align-items: center;

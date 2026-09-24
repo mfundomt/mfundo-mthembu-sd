@@ -17,8 +17,10 @@ A shadow service that passively mirrors and captures API traffic flowing through
 - SignalR for live updates
 - Angular dashboard
 
-### Status
-<span class="progress-code">Completed</span>
+### Links
+- **Live:** <a href="https://www.footlook.co.za" target="_blank" rel="noopener noreferrer">footlook.co.za</a>
+- **Code:** <a href="https://github.com/mfundomt/FootLook--Zero-Interaction-API-Observability" target="_blank" rel="noopener noreferrer">API (GitHub)</a> · <a href="https://github.com/mfundomt/footlook-ui" target="_blank" rel="noopener noreferrer">UI (GitHub)</a>
+
 <div class="nav-button">
  <button class="button" data-command="git checkout projects-explorer">&lt; Back</button>
 </div>

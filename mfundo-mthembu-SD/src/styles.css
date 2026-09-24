@@ -117,6 +117,19 @@ ngw-window .ngw-window-content {
   flex-direction: column !important;
 }
 
+/* ── Maximized windows: stop above the taskbar (42px + 1px border) and drop the
+   inline max-width/max-height ngx-windows sets from the restored window size ── */
+ngw-windows-container ngw-window.maximized {
+  box-sizing: border-box;
+  height: calc(100% - 43px) !important;
+  max-height: calc(100% - 43px) !important;
+}
+
+ngw-window.maximized .ngw-window-content {
+  max-width: none !important;
+  max-height: none !important;
+}
+
 /* ── Terminal inside ngx-window: fill the content area, not the viewport ── */
 ngw-window app-command-terminal {
   flex: 1 !important;

@@ -19,8 +19,9 @@ A terminal-themed portfolio experience where users navigate sections via command
 - marked.js
 - Express 5
 
-### Status
-<span class="progress-code">Completed</span>
+### Links
+- **Live:** You're looking at it
+- **Code:** <a href="https://github.com/mfundomt/mfundo-mthembu-sd" target="_blank" rel="noopener noreferrer">github.com/mfundomt/mfundo-mthembu-sd</a>
 
 <div class="nav-button">
 <button class="button" data-command="git checkout projects-explorer">&lt; Back </button>

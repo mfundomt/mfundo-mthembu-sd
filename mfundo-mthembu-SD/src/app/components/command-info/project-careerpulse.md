@@ -18,8 +18,9 @@ An automation pipeline that monitors inbound newsletters, classifies relevance, 
 - Push notification API
 - SQL Server for history and deduplication
 
-### Status
-<span class="progress-code">In Progress</span>
+### Links
+- **Live:** Coming soon
+- **Code:** Coming soon
 
 <div class="nav-button">
 <button class="button" data-command="git checkout projects-explorer">&lt; Back </button>

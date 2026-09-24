@@ -12,7 +12,9 @@ A shadow service that passively mirrors and captures API traffic flowing through
 - **Dashboard:** Angular
 - **Packaging:** NuGet package (drop into any .NET API) 
 
-**Status:** <span class="progress-code">In Progress</span>
+**Links:**
+- **Live:** <a href="https://www.footlook.co.za" target="_blank" rel="noopener noreferrer">footlook.co.za</a>
+- **Code:** <a href="https://github.com/mfundomt/FootLook--Zero-Interaction-API-Observability" target="_blank" rel="noopener noreferrer">API (GitHub)</a> · <a href="https://github.com/mfundomt/footlook-ui" target="_blank" rel="noopener noreferrer">UI (GitHub)</a>
 
 ---
 
@@ -25,7 +27,9 @@ An automation pipeline built with **n8n** that monitors my email inbox for incom
 - **Notification:** Push API
 - **Storage:** SQL Server for crawl history + deduplication
 
-**Status:** <span class="progress-code">In Progress</span>
+**Links:**
+- **Live:** Coming soon
+- **Code:** Coming soon
 
 ---
 
@@ -50,7 +54,9 @@ A terminal-themed portfolio website designed to stand out from traditional CV si
 - Animated modal system with next/prev navigation
 - Fully server-side rendered for SEO and fast first paint
 
-**Status:** <span class="progress-code">Completed</span>
+**Links:**
+- **Live:** You're looking at it
+- **Code:** <a href="https://github.com/mfundomt/mfundo-mthembu-sd" target="_blank" rel="noopener noreferrer">github.com/mfundomt/mfundo-mthembu-sd</a>
 
 ---
 

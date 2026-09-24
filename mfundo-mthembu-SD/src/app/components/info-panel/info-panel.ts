@@ -11,11 +11,8 @@ import { map } from 'rxjs';
   template: `
     <div class="info-terminal" *ngIf="content">
       <div class="info-titlebar">
-        <div class="traffic-lights" aria-hidden="true">
-          <span class="dot close" (click)="onClose()"></span>
-          <span class="dot min"></span>
-        </div>
         <span class="info-title">{{ title }}</span>
+        <button type="button" class="close-btn" (click)="onClose()" aria-label="Close" title="Close">✕</button>
       </div>
       <div class="info-body">
         <p class="info-content">{{ content }}</p>

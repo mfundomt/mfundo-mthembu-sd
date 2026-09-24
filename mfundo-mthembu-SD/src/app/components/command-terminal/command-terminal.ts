@@ -78,8 +78,8 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
 
   runInitialCommand(): void {
     if(this.seedCommands.length === 0){
-      const initialCommand = 'help';
-      this.addCommand(initialCommand);
+      this.addCommand('show goal');
+      this.addCommand('help');
     }
   }
 

@@ -69,13 +69,15 @@ const ICON_POSITIONS_STORAGE_KEY = 'desktop.icon.positions.v1';
       <!-- ngx-windows container -->
       <ngw-windows-container [style]="{ width: '100vw', height: '100vh' }" />
 
-      <!-- Info panel overlay (show goal / help) -->
-      @if (infoPanelService.panel$ | async; as panel) {
-        <div class="info-panel-overlay">
-          <app-info-panel
-            [title]="panel.title"
-            [content]="panel.content"
-            (closed)="infoPanelService.hide()" />
+      <!-- Info panel overlays (show goal / help) -->
+      @if (infoPanelService.panels$ | async; as panels) {
+        <div class="info-panel-overlay" *ngIf="panels.length > 0">
+          @for (panel of panels; track panel.id) {
+            <app-info-panel
+              [title]="panel.title"
+              [content]="panel.content"
+              (closed)="infoPanelService.hide(panel.id)" />
+          }
         </div>
       }
     </div>
@@ -117,6 +119,10 @@ const ICON_POSITIONS_STORAGE_KEY = 'desktop.icon.positions.v1';
       right: 20px;
       z-index: 200;
       pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
     }
   `]
 })

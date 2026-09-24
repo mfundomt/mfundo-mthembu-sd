@@ -1,7 +1,9 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef, afterNextRender, DestroyRef } from '@angular/core';
 import { Input, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommandModalService } from '../../services/command-modal-service';
 import { RecruiterStateService } from '../../services/recruiter-state-service';
 import { InfoPanelService } from '../../services/info-panel.service';
@@ -24,12 +26,26 @@ interface CommandEntry {
 export class CommandTerminal implements OnInit, AfterViewChecked {
   
   @ViewChild('cmdDisplay') private cmdDisplay!: ElementRef<HTMLDivElement>;
+  @ViewChild('cmdInput') private cmdInput?: ElementRef<HTMLInputElement>;
   @Input() seedCommands: CommandEntry[] = [];
   suggestions: string[] = ['about', 'skills', 'experience', 'projects', 'education', 'certifications', 'referrals', 'contacts', 'introduction'];
 
   private modalService = inject(CommandModalService);
   private recruiterState = inject(RecruiterStateService);
   private infoPanelService = inject(InfoPanelService);
+  private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    // Visitors should be able to start typing without clicking the terminal first,
+    // including after closing a section modal.
+    afterNextRender(() => {
+      this.focusInput();
+      this.dialog.afterAllClosed
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => setTimeout(() => this.focusInput()));
+    });
+  }
 
   private availableCommands = [
     'git checkout about',
@@ -88,6 +104,10 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
       const el = this.cmdDisplay.nativeElement;
       el.scrollTop = el.scrollHeight;
     }
+  }
+
+  focusInput(): void {
+    this.cmdInput?.nativeElement.focus();
   }
 
   runQuickCommand(command: string): void {

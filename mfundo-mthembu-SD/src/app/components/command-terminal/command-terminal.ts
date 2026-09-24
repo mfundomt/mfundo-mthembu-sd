@@ -194,11 +194,16 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
         this.modalService.openModal(input);
         
         return 'Opening Contacts section...';
+
+      case 'git checkout introduction':
+        this.modalService.openModal(input);
+        return 'Opening Introduction...';
+
         case 'show goal':
         this.infoPanelService.show('🎯 Goal', 'Navigate project sections using git terminal commands.\n\nUse "git checkout <section>" to explore each part of the portfolio.');
         return null;
       case 'help':
-        this.infoPanelService.show('📖 Help', 'Available commands:\n\n• git checkout <section>\n• switch mode\n• show goal\n• help\n• clear\n\nSections:\nabout, skills, experience, projects,\ncertifications, education, referrals, contacts');
+        this.infoPanelService.show('📖 Help', 'Available commands:\n\n• git checkout <section>\n• switch mode\n• show goal\n• help\n• clear\n\nSections:\nintroduction, about, skills, experience, projects,\ncertifications, education, referrals, contacts');
         return null;
         case 'clear':       
          this.commandHistory = [];

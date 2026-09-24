@@ -32,7 +32,7 @@
     </div>
 
     <!-- Command history display -->
-    <div class="cmd-display" #cmdDisplay role="log" aria-live="polite" aria-label="Command history">
+    <div class="cmd-display" #cmdDisplay (click)="focusInput()" role="log" aria-live="polite" aria-label="Command history">
         <div *ngFor="let entry of commandHistory" [id]="'command_' + entry.id" class="cmd-row">
             <p class="cmd-line">
                 <span class="prompt" aria-hidden="true">$</span>

@@ -58,11 +58,32 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
     'git checkout referrals',
     'git checkout contacts',
     'git checkout introduction',
+    'git branch',
+    'git status',
+    'ls',
+    'whoami',
     'show goal',
     'help',
     'clear',
     'switch mode'
   ];
+
+  // Section name -> label shown in the terminal output.
+  private sections: Record<string, string> = {
+    introduction: 'Introduction',
+    about: 'About',
+    skills: 'Skills Explorer',
+    experience: 'Experience',
+    projects: 'Projects Explorer',
+    education: 'Education',
+    certifications: 'Certifications Explorer',
+    certificates: 'Certifications Explorer',
+    referrals: 'Referrals',
+    contacts: 'Contacts',
+  };
+
+  // Shell-style verbs developers reach for instinctively; all behave like `git checkout`.
+  private checkoutVerbs = ['git checkout', 'git switch', 'cd', 'open', 'cat'];
 
   levelName = 'Software Developer';
   commandHistory: CommandEntry[] = [];
@@ -175,55 +196,28 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
   }
 
   private processCommand(input: string): string | null {
+    const command = input.toLowerCase().replace(/\s+/g, ' ').trim();
 
-    switch (input.toLowerCase()) {
+    const section = this.resolveSection(command);
+    if (section) {
+      this.modalService.openModal(`git checkout ${section}`);
+      return `Opening ${this.sections[section]} section...`;
+    }
 
-      case 'git checkout about':
-        this.modalService.openModal(input);
-        return 'Opening About section...';
-
-      case 'git checkout skills':
-        this.modalService.openModal(input);
-        return 'Opening Skills Explorer section...';
-
-      case 'git checkout experience':
-        this.modalService.openModal(input);
-        return 'Opening Experience section...';
-
-      case 'git checkout projects':
-      this.modalService.openModal(input);
-      return 'Opening Projects Explorer section...';
-
-      case 'git checkout certifications':
-        this.modalService.openModal(input);
-        return 'Opening Certifications Explorer section...';
-
-      case 'git checkout certificates':
-        this.modalService.openModal(input);
-        return 'Opening Certifications Explorer section...';
-
-      case 'git checkout education':
-        this.modalService.openModal(input);
-        return 'Opening Education section...';
-
-      case 'git checkout referrals':
-        this.modalService.openModal(input);
-        return 'Opening Referrals section...';
-
-      case 'git checkout contacts':
-        this.modalService.openModal(input);
-        
-        return 'Opening Contacts section...';
-
-      case 'git checkout introduction':
-        this.modalService.openModal(input);
-        return 'Opening Introduction...';
-
+    switch (command) {
+      case 'ls':
+        return Object.keys(this.sections).filter(s => s !== 'certificates').join('  ');
+      case 'git branch':
+        return `Branches: ${Object.keys(this.sections).filter(s => s !== 'certificates').join(', ')}. Use "git checkout <branch>" to open one.`;
+      case 'git status':
+        return 'On branch main. Nothing to commit, working tree clean. Try "git checkout projects".';
+      case 'whoami':
+        return 'Mfundo Mthembu, Software Developer based in Cape Town. Run "git checkout about" for more.';
         case 'show goal':
         this.infoPanelService.show('🎯 Goal', 'Navigate project sections using git terminal commands.\n\nUse "git checkout <section>" to explore each part of the portfolio.');
         return null;
       case 'help':
-        this.infoPanelService.show('📖 Help', 'Available commands:\n\n• git checkout <section>\n• switch mode\n• show goal\n• help\n• clear\n\nSections:\nintroduction, about, skills, experience, projects,\ncertifications, education, referrals, contacts');
+        this.infoPanelService.show('📖 Help', 'Available commands:\n\n• git checkout <section>\n  (or cd <section>, or just <section>)\n• ls / git branch\n• whoami\n• switch mode\n• show goal\n• help\n• clear\n\nSections:\nintroduction, about, skills, experience, projects,\ncertifications, education, referrals, contacts');
         return null;
         case 'clear':       
          this.commandHistory = [];
@@ -233,9 +227,64 @@ export class CommandTerminal implements OnInit, AfterViewChecked {
         this.recruiterState.setRecruiterMode(!currentMode);
         const newMode = !currentMode ? 'Recruiter' : 'Developer';
         return `Switched to ${newMode} mode.`;
-      default:
-        return `Unknown command: "${input}". Type "help" for available commands.`;
+      default: {
+        const suggestion = this.suggestCommand(command);
+        return suggestion
+          ? `Unknown command: "${input}". Did you mean "${suggestion}"?`
+          : `Unknown command: "${input}". Type "help" for available commands.`;
+      }
     }
+  }
+
+  /** Maps `git checkout x`, `cd x`, `git switch x`, or a bare `x` to a known section. */
+  private resolveSection(command: string): string | null {
+    if (this.sections[command]) return command;
+    for (const verb of this.checkoutVerbs) {
+      if (command.startsWith(verb + ' ')) {
+        const target = command.slice(verb.length + 1);
+        return this.sections[target] ? target : null;
+      }
+    }
+    return null;
+  }
+
+  private suggestCommand(command: string): string | null {
+    const verb = this.checkoutVerbs.find(v => command.startsWith(v + ' '));
+    if (verb) {
+      const target = command.slice(verb.length + 1);
+      const match = this.closest(target, Object.keys(this.sections));
+      return match ? `git checkout ${match}` : null;
+    }
+    const match = this.closest(command, [...this.availableCommands, ...Object.keys(this.sections)]);
+    if (!match) return null;
+    return this.sections[match] ? `git checkout ${match}` : match;
+  }
+
+  private closest(value: string, candidates: string[]): string | null {
+    let best: string | null = null;
+    let bestDistance = 3; // only suggest when within 2 edits
+    for (const candidate of candidates) {
+      const distance = this.editDistance(value, candidate);
+      if (distance < bestDistance) {
+        best = candidate;
+        bestDistance = distance;
+      }
+    }
+    return best;
+  }
+
+  private editDistance(a: string, b: string): number {
+    const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+    for (let i = 1; i <= a.length; i++) {
+      let prev = row[0];
+      row[0] = i;
+      for (let j = 1; j <= b.length; j++) {
+        const temp = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = temp;
+      }
+    }
+    return row[b.length];
   }
 
 
